@@ -46,6 +46,12 @@ Plugin 'mhinz/vim-signify'
 Plugin 'morhetz/gruvbox'
 " Ajoute le marquage de l'indentation
 Plugin 'Yggdroot/indentLine'
+" Fichier de syntax HTML5
+"Plugin 'othree/html5.vim'
+" Outils de programmation Arduino
+Plugin 'yabb85/vim-arduino-ino'
+" completion pour xml
+Plugin 'sukima/xmledit'
 
 
 " Depot vim-script
@@ -110,6 +116,7 @@ let maplocalleader = ",,"
 " Raccourcis pour l'ouverture d'un nouvelle onglet
 noremap tn :<C-u>tabnew<cr>
 noremap tc :<C-u>tabclose<cr>
+noremap tm :<C-u>tabmove
 
 " Encodage permettant l'utilisation de powerline
 set encoding=utf-8
@@ -199,7 +206,7 @@ autocmd FileType yaml set ts=2 sw=2 sts=2
 autocmd FileType java set ts=4|set sw=4|set sts=4
 
 " Remplace les tabulations par des espaces
-au BufNewFile,BufRead,Bufenter *.cpp,*.hpp,*cxx,*hxx,*.c,*.h,*.java set expandtab
+au BufNewFile,BufRead,BufEnter *.cpp,*.hpp,*cxx,*hxx,*.c,*.h,*.java set expandtab
 
 " Supprime automatiquement les trailing space
 let g:DeleteTrailingWhitespace = 1
@@ -227,13 +234,15 @@ let g:indentLine_char = '|'
 let g:tex_flavor='latex'
 
 " Latex suite accent
+imap <C-b> <Plug>Tex_MathBF
+imap <C-c> <Plug>Tex_MathCal
+imap <C-l> <Plug>Tex_LeftRight
 imap <buffer> <leader>it <Plug>Tex_InsertItemOnThisLine
-imap <Alt-B> <Plug>Tex_MathBF
 
 " Format de sortie latex par defaut
 let g:Tex_DefaultTargetFormat="pdf"
 
-" Viewer psdf
+" Viewer pdf
 let g:Tex_ViewerRule_pdf="evince"
 
 " désactivation des smart quote
@@ -253,6 +262,7 @@ let g:syntastic_cpp_compiler_options = ' -std=c++11'
 "---------------"
 
 " Active l'auto completion
+let g:pymode = 1
 let g:pymode_rope = 1
 
 " Documentation
@@ -261,7 +271,7 @@ let g:pymode_doc_key = 'K'
 
 " Checker la syntax du code python
 let g:pymode_lint = 1
-let g:pymode_lint_checker = "pyflakes,pep8"
+let g:pymode_lint_checkers = ['pylint', 'pep8']
 
 " Auto check on save
 let g:pymode_lint_write = 1
@@ -280,11 +290,11 @@ let g:pymode_syntax_indent_errors = g:pymode_syntax_all
 let g:pymode_syntax_space_errors = g:pymode_syntax_all
 
 " Ne pas replier le code automatiquement
-let g:pymode_folding = 0
+let g:pymode_folding = 1
 
 " Execute le script python dans le buffer courrant
 let g:pymode_run_key = 'R'
-let g:pyode_run = 1
+let g:pymode_run = 1
 
 "-----------------"
 " Option Jedi-vim "
@@ -350,8 +360,11 @@ let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
 set completeopt=menuone,menu,longest,preview
 
 
-
-
+"----------------"
+" Option Arduino "
+"----------------"
+let g:vim_arduino_auto_open_serial = 1
+let $PATH .= ':/home/disciple/.local/bin'
 
 
 

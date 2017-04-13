@@ -52,6 +52,8 @@ Plugin 'Yggdroot/indentLine'
 Plugin 'yabb85/vim-arduino-ino'
 " completion pour xml
 Plugin 'sukima/xmledit'
+" Page d'accueil
+Plugin 'mhinz/vim-startify'
 
 
 " Depot vim-script
@@ -121,6 +123,31 @@ noremap tm :<C-u>tabmove
 " Encodage permettant l'utilisation de powerline
 set encoding=utf-8
 
+" taille de l'historique
+:set history=100
+
+" reactive le backspace en cas de soucis
+set backspace=indent,eol,start
+
+" Utilise les plugin installer par debian
+"runtime! debian.vim
+
+
+"---------"
+" MAPPING "
+"---------"
+" Sauvergarde rapide de la session
+map <F2> :SSave last <cr>y
+
+" Sauvegarde de la session
+map <S-F2> :SSave
+
+" Chargement rapide de la session
+map <F3> :SLoad last <cr>
+
+" Chargement d'une session
+map <S-F3> :SLoad
+
 " Ouverture/Fermeture du browser avec la touche F4
 map <F4> :NERDTreeToggle<cr>
 
@@ -130,19 +157,10 @@ map <S-F4> :TlistToggle<cr>
 " Ouverture de l'historique des annulation avec Ctrl+F4
 map <C-F4> :GundoToggle<cr>
 
-" Sauvergarde de la session
-map <F2> :mks! ~/.vim/session/last.vim <cr>
-" Chargement de la session
-map <F3> :source ~/.vim/session/last.vim <cr>
-
-" taille de l'historique
-:set history=100
-
-" reactive le backspace en cas de soucis
-set backspace=indent,eol,start
-
-" Utilise les plugin installer par debian
-"runtime! debian.vim
+" Option de versionning
+map <silent> <F6> <Esc>:VCSBlame<CR>
+map <silent> <C-F6> <Esc>:VCSLog<CR>
+map <silent> <F7> <Esc>:VCSDiff<CR>
 
 
 "--------------------"
@@ -226,6 +244,39 @@ let g:indentLine_char = '|'
 "set list lcs=tab:\|\
 
 
+"----------"
+" Startify "
+"----------"
+
+function! OpenProject(path)
+	cd `=a:path`
+	NERDTree `pwd`
+endfunction
+
+let g:startify_commands = [
+			\ ['ueki', 'call OpenProject("~/dev/python/ueki")']
+			\ ]
+
+let g:startify_list_order = [
+			\ ['My most recently used files'],
+			\ 'files',
+			\ ['Sessions'],
+			\ 'sessions',
+			\ ['Bookmarks'],
+			\ 'bookmarks',
+			\ ['Commands'],
+			\ 'commands'
+			\ ]
+
+
+"---------------"
+" Ctrl-P plugin "
+"---------------"
+
+" filtre de fichier pour ctrlP
+set wildignore+=*.o,*.swp,*.so
+
+
 "-------------"
 " Latex Suite "
 "-------------"
@@ -249,13 +300,9 @@ let g:Tex_ViewerRule_pdf="evince"
 let g:Tex_SmartKeyQuote='0'
 
 
-"-------------------"
-" Checker de syntax "
-"-------------------"
-
-" Option pour checker la syntax C++ avec la norme C++11
-let g:syntastic_cpp_compiler_options = ' -std=c++11'
-
+"------------"
+"   Python   "
+"------------"
 
 "---------------"
 " Option PyMode "
@@ -296,6 +343,7 @@ let g:pymode_folding = 1
 let g:pymode_run_key = 'R'
 let g:pymode_run = 1
 
+
 "-----------------"
 " Option Jedi-vim "
 "-----------------"
@@ -318,21 +366,17 @@ let g:pymode_run = 1
 " Aller a la ligne d'import du module correspondant
 "let g:jedi#goto_command = "<leader>g"
 
-"---------------"
-" Ctrl-P plugin "
-"---------------"
+"---------"
+"   C++   "
+"---------"
 
-" filtre de fichier pour ctrlP
-set wildignore+=*.o,*.swp,*.so
+"-------------------"
+" Checker de syntax "
+"-------------------"
 
+" Option pour checker la syntax C++ avec la norme C++11
+let g:syntastic_cpp_compiler_options = ' -std=c++11'
 
-"------------"
-" Versioning "
-"------------"
-
-map <silent> <F6> <Esc>:VCSBlame<CR>
-map <silent> <C-F6> <Esc>:VCSLog<CR>
-map <silent> <F7> <Esc>:VCSDiff<CR>
 
 "------------------------------"
 " Auto completion avec omnicpp "
@@ -365,8 +409,6 @@ set completeopt=menuone,menu,longest,preview
 "----------------"
 let g:vim_arduino_auto_open_serial = 1
 let $PATH .= ':/home/disciple/.local/bin'
-
-
 
 
 "---------------------------------------------------"
